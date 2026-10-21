@@ -6,7 +6,9 @@ import (
 )
 
 func RegisterUserRoutes(userHandler *handler.UserHandler) {
-	http.HandleFunc("/users", userHandler.CreateUser)
-	http.HandleFunc("/users/{id}", userHandler.GetUserById)
-	http.HandleFunc("/users/{id}", userHandler.DeleteUserBYId)
+	http.HandleFunc("POST /users", userHandler.CreateUser)
+	http.HandleFunc("GET /users/{id}", userHandler.GetUserById)
+	http.HandleFunc("DELETE /users/{id}", userHandler.DeleteUserBYId)
+	http.HandleFunc("GET /users", userHandler.GetAllUsers)
+
 }
