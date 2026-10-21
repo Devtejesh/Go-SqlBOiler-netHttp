@@ -5,6 +5,7 @@ import (
 	"backenedprojectphase1/go-backend-daily-tasks/day01-create-user-api/repository"
 	"context"
 	"errors"
+	"fmt"
 )
 
 type UserService struct {
@@ -35,7 +36,28 @@ func (s *UserService) GetUserById(ctx context.Context, id int) (*models.User, er
 }
 func (s *UserService) DeleteUserBYId(ctx context.Context, id int) error {
 	if id <= 0 {
-		return nil, errors.New("invalid user id")
+		return errors.New("invalid user id")
 	}
 	return s.Repo.DeleteUserBYId(ctx, id)
+}
+func (s *UserService) GetAllUsers(
+	ctx context.Context, name string, page int, limit int) ([]*models.User, error) {
+	if page == 0 {
+		page = 1
+	}
+	if limit == 0 {
+		limit = 10
+	}
+	if page < 1 {
+		return nil, fmt.Errorf("page must be greater than 0")
+	}
+	if limit < 1 || limit > 100 {
+		return nil, fmt.Errorf("limit must be between 1 and 100")
+	}
+	offset := (page - 1) * limit
+	users, err := s.Repo.GetAllUsers(ctx, name, limit, offset)
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
 }

@@ -24,51 +24,58 @@ import (
 
 // User is an object representing the database table.
 type User struct {
-	ID        int       `boil:"id" json:"id" toml:"id" yaml:"id"`
-	Name      string    `boil:"name" json:"name" toml:"name" yaml:"name"`
-	Email     string    `boil:"email" json:"email" toml:"email" yaml:"email"`
-	CreatedAt null.Time `boil:"created_at" json:"created_at,omitempty" toml:"created_at" yaml:"created_at,omitempty"`
+	ID           int       `boil:"id" json:"id" toml:"id" yaml:"id"`
+	Name         string    `boil:"name" json:"name" toml:"name" yaml:"name"`
+	Email        string    `boil:"email" json:"email" toml:"email" yaml:"email"`
+	CreatedAt    null.Time `boil:"created_at" json:"created_at,omitempty" toml:"created_at" yaml:"created_at,omitempty"`
+	PasswordHash string    `boil:"password_hash" json:"password_hash" toml:"password_hash" yaml:"password_hash"`
 
 	R *userR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L userL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var UserColumns = struct {
-	ID        string
-	Name      string
-	Email     string
-	CreatedAt string
+	ID           string
+	Name         string
+	Email        string
+	CreatedAt    string
+	PasswordHash string
 }{
-	ID:        "id",
-	Name:      "name",
-	Email:     "email",
-	CreatedAt: "created_at",
+	ID:           "id",
+	Name:         "name",
+	Email:        "email",
+	CreatedAt:    "created_at",
+	PasswordHash: "password_hash",
 }
 
 var UserTableColumns = struct {
-	ID        string
-	Name      string
-	Email     string
-	CreatedAt string
+	ID           string
+	Name         string
+	Email        string
+	CreatedAt    string
+	PasswordHash string
 }{
-	ID:        "users.id",
-	Name:      "users.name",
-	Email:     "users.email",
-	CreatedAt: "users.created_at",
+	ID:           "users.id",
+	Name:         "users.name",
+	Email:        "users.email",
+	CreatedAt:    "users.created_at",
+	PasswordHash: "users.password_hash",
 }
 
 // Generated where
 
 var UserWhere = struct {
-	ID        whereHelperint
-	Name      whereHelperstring
-	Email     whereHelperstring
-	CreatedAt whereHelpernull_Time
+	ID           whereHelperint
+	Name         whereHelperstring
+	Email        whereHelperstring
+	CreatedAt    whereHelpernull_Time
+	PasswordHash whereHelperstring
 }{
-	ID:        whereHelperint{field: "\"users\".\"id\""},
-	Name:      whereHelperstring{field: "\"users\".\"name\""},
-	Email:     whereHelperstring{field: "\"users\".\"email\""},
-	CreatedAt: whereHelpernull_Time{field: "\"users\".\"created_at\""},
+	ID:           whereHelperint{field: "\"users\".\"id\""},
+	Name:         whereHelperstring{field: "\"users\".\"name\""},
+	Email:        whereHelperstring{field: "\"users\".\"email\""},
+	CreatedAt:    whereHelpernull_Time{field: "\"users\".\"created_at\""},
+	PasswordHash: whereHelperstring{field: "\"users\".\"password_hash\""},
 }
 
 // UserRels is where relationship names are stored.
@@ -108,9 +115,9 @@ func (r *userR) GetOrders() OrderSlice {
 type userL struct{}
 
 var (
-	userAllColumns            = []string{"id", "name", "email", "created_at"}
+	userAllColumns            = []string{"id", "name", "email", "created_at", "password_hash"}
 	userColumnsWithoutDefault = []string{"name", "email"}
-	userColumnsWithDefault    = []string{"id", "created_at"}
+	userColumnsWithDefault    = []string{"id", "created_at", "password_hash"}
 	userPrimaryKeyColumns     = []string{"id"}
 	userGeneratedColumns      = []string{}
 )
